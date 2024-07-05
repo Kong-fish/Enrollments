@@ -31,3 +31,4 @@ public class RegisterPanel extends JPanel {
         add(registerButton);
     }
 }
+    

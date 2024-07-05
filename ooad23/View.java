@@ -22,10 +22,10 @@ public class View extends JFrame implements Observer{
         JPanel viewCoursePanel = new ViewCoursePanel(this);
         JPanel registerPanel = new RegisterPanel(this);
         JPanel welcomePanel = new WelcomePanel(this);
-        JPanel mPanel = new MPanel(this); 
+        JPanel mPanel = new Welcome(this); 
 
         mainPanel.add(mPanel, "MPanel");
-        mainPanel.add(registerPanel, "RegisterPanel");
+        mainPanel.add(registerPanel, "Register");
         mainPanel.add(welcomePanel, "WelcomePanel");
         mainPanel.add(enrollmentPanel, "EnrollmentPanel");
         mainPanel.add(billingPanel, "BillingPanel");
