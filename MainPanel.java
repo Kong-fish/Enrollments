@@ -22,6 +22,7 @@ public class MainPanel extends JFrame {
         JPanel enrollmentPanel = new EnrollmentPanel(this);
         JPanel billingPanel = new BillingPanel(this);
         JPanel viewCoursePanel = new ViewCoursePanel(this);
+        JPanel StudentList = new StudentList(this);
 
         panel.add(welcomePanel, "Welcome Panel");
         panel.add(homePanel, "Home Panel");
@@ -29,6 +30,7 @@ public class MainPanel extends JFrame {
         panel.add(enrollmentPanel, "Enrollment Panel");
         panel.add(billingPanel, "Billing Panel");
         panel.add(viewCoursePanel, "View Course Panel");
+        panel.add(StudentList, "Student List Panel");
 
         add(panel);
     }

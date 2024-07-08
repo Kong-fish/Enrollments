@@ -1,44 +1,65 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Student {
+    private int id;
     private String name;
-    private List<Student> students;
-    private List<Course> courses;
-    private boolean needsAccommodation;
+    private String dob;
+    private String gender;
+    private String phoneNumber;
+    private String email;
 
-    public Student(String name) {
+    public Student(int id, String name, String dob, String gender, String phoneNumber, String email) {
+        this.id = id;
         this.name = name;
-        this.courses = new ArrayList<>();
-        students = new ArrayList<>();
+        this.dob = dob;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
-    public void addStudent(String name) {
-        Student student = new Student(name);
-        students.add(student);
+    public int getId() {
+        return id;
     }
 
-    public List<Student> getStudents() {
-        return students;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void addCourse(Course course) {
-        courses.add(course);
+    public String getDob() {
+        return dob;
     }
 
-    public boolean needsAccommodation() {
-        return needsAccommodation;
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
-    public void setNeedsAccommodation(boolean needsAccommodation) {
-        this.needsAccommodation = needsAccommodation;
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
