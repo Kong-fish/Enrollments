@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class BillingPanel extends JPanel {
     private JCheckBox accommodationCheckBox;
@@ -7,18 +6,24 @@ public class BillingPanel extends JPanel {
 
     public BillingPanel(MainPanel main) {
         this.main = main;
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JTextArea billArea = new JTextArea();
+        JTextArea billArea = new JTextArea(10, 30);
         billArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(billArea);
 
         JLabel accommodationLabel = new JLabel("Needs Accommodation?");
         accommodationCheckBox = new JCheckBox();
-        JButton generateBillButton = new JButton("Generate Bill");
 
+        JPanel topPanel = new JPanel();
+        topPanel.add(accommodationLabel);
+        topPanel.add(accommodationCheckBox);
+
+        JButton generateBillButton = new JButton("Generate Bill");
         generateBillButton.addActionListener(e -> {
             StringBuilder bill = new StringBuilder();
-            /*for (Student student : view.getController().getModel().getStudents()) {
+            /* Uncomment and complete the following block to display student bill information
+            for (Student student : view.getController().getModel().getStudents()) {
                 bill.append("Student: ").append(student.getName()).append("\n");
                 bill.append("Courses:\n");
                 for (Course course : student.getCourses()) {
@@ -43,31 +48,20 @@ public class BillingPanel extends JPanel {
                 bill.append("Club and Society Fee: ").append(clubSocietyFee).append("\n");
                 bill.append("Total Fee: ").append(totalFee).append("\n");
                 bill.append("Discounted Fee: ").append(discountedFee).append("\n\n");
-            }*/
+            }
+            */
             billArea.setText(bill.toString());
         });
 
-        JPanel topPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        topPanel.add(accommodationLabel, gbc);
-
-        gbc.gridx = 1;
-        topPanel.add(accommodationCheckBox, gbc);
-        
         JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
 
-        backButton.addActionListener(e -> {
-            main.showPanel("Home Panel");
-        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(backButton);
+        buttonPanel.add(generateBillButton);
 
-        // Adding the back button to the north side of the panel
-        add(backButton, BorderLayout.NORTH);
-
-        add(new JScrollPane(billArea), BorderLayout.CENTER);
-        add(topPanel, BorderLayout.NORTH);
-        add(generateBillButton, BorderLayout.SOUTH);
+        add(topPanel);
+        add(scrollPane);
+        add(buttonPanel);
     }
 }
