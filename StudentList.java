@@ -1,7 +1,15 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import java.awt.*;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class StudentList extends JPanel {
@@ -19,18 +27,48 @@ public class StudentList extends JPanel {
     private void placeComponents(JPanel panel) {
         loadStudents();
         String[] columnNames = {"ID", "Name", "Date of Birth", "Gender", "Phone Number", "Email"};
-        Object[][] data = new Object[students.size()][6];
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-            data[i][0] = student.getId();
-            data[i][1] = student.getName();
-            data[i][2] = student.getDob();
-            data[i][3] = student.getGender();
-            data[i][4] = student.getPhoneNumber();
-            data[i][5] = student.getEmail();
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+ 
+        for (Student student : students) {
+            String dob = student.getDob();
+            try {
+                Date date = parser.parse(dob);
+                dob = formatter.format(date); // Format the date as "yyyy-MM-dd"
+            } catch (ParseException e) {
+                // Handle the exception if the dob string is not in the expected format
+                e.printStackTrace();
+            }
+            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail()});
         }
-        table = new JTable(data, columnNames);
+        table = new JTable(model);
         panel.add(new JScrollPane(table), BorderLayout.CENTER);
+    
+        JButton backButton = new JButton("Back to Welcome");
+        backButton.addActionListener(e -> mainPanel.showPanel("Welcome Panel"));
+        panel.add(backButton, BorderLayout.SOUTH);
+    }
+    
+    public void refreshStudentList() {
+        students.clear();
+        loadStudents();
+        // Refresh the table model
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear the table
+        SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (Student student : students) {
+            String dob = student.getDob();
+            try {
+                Date date = parser.parse(dob);
+                dob = formatter.format(date); // Format the date as "yyyy-MM-dd"
+            } catch (ParseException e) {
+                // Handle the exception if the dob string is not in the expected format
+                e.printStackTrace();
+            }
+            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail()});
+        }
     }
 
     private void loadStudents() {
@@ -50,4 +88,6 @@ public class StudentList extends JPanel {
             e.printStackTrace();
         }
     }
+
+    
 }

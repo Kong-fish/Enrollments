@@ -19,54 +19,54 @@ public class RegisterPanel extends JPanel {
     private void placeComponents(JPanel panel) {
         //Name
         JLabel nameLabel = new JLabel("Student Name:");
-        nameLabel.setBounds(310, 120, 120, 30);
+        nameLabel.setBounds(290, 120, 120, 30);
         panel.add(nameLabel);
 
         JTextField nameText = new JTextField(20);
-        nameText.setBounds(430, 120, 165, 25);
+        nameText.setBounds(410, 120, 165, 25);
         panel.add(nameText);
 
         //DOB
         JLabel dobLabel = new JLabel("Date of Birth:");
-        dobLabel.setBounds(310, 160, 100, 25);
+        dobLabel.setBounds(290, 160, 100, 25);
         panel.add(dobLabel);
 
         JSpinner dobSpinner = new JSpinner(new SpinnerDateModel());
-        dobSpinner.setBounds(430, 160, 165, 25);
+        dobSpinner.setBounds(410, 160, 165, 25);
         dobSpinner.setEditor(new JSpinner.DateEditor(dobSpinner, "yyyy-MM-dd"));
         panel.add(dobSpinner);
 
         //Gender
         JLabel genderLabel = new JLabel("Gender:");
-        genderLabel.setBounds(310, 200, 100, 25);
+        genderLabel.setBounds(290, 200, 100, 25);
         panel.add(genderLabel);
 
         String[] genders = {"Male", "Female"};
         JComboBox genderBox = new JComboBox(genders);
-        genderBox.setBounds(430, 200, 165, 25);
+        genderBox.setBounds(410, 200, 165, 25);
         panel.add(genderBox);
 
         //HP
         JLabel phoneLabel = new JLabel("Phone Number:");
-        phoneLabel.setBounds(310, 240, 100, 25);
+        phoneLabel.setBounds(290, 240, 100, 25);
         panel.add(phoneLabel);
 
         JTextField phoneText = new JTextField(20);
-        phoneText.setBounds(430, 240, 165, 25);
+        phoneText.setBounds(410, 240, 165, 25);
         panel.add(phoneText);
 
         //Email
         JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setBounds(310, 280, 100, 25);
+        emailLabel.setBounds(290, 280, 100, 25);
         panel.add(emailLabel);
 
         JTextField emailText = new JTextField(20);
-        emailText.setBounds(430, 280, 165, 25);
+        emailText.setBounds(410, 280, 165, 25);
         panel.add(emailText);
 
         //Register btn
         JButton registerButton = new JButton("Register");
-        registerButton.setBounds(310, 320, 80, 25);
+        registerButton.setBounds(290, 320, 110, 25);
         panel.add(registerButton);
 
         //after pressed then save detail
@@ -82,15 +82,18 @@ public class RegisterPanel extends JPanel {
                     Long.parseLong(phoneNumber);
                     Student student = new Student(studentId++, studentName, dob.toString(), gender, phoneNumber, email);
                     saveStudent(student);
+                    mainPanel.getStudentListPanel().refreshStudentList();
+                    // Show a dialog box with a success message
+                    JOptionPane.showMessageDialog(panel, "Student Information successfully registered.", "Registration Successful", JOptionPane.INFORMATION_MESSAGE);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(panel, "Phone number must be numeric.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-
+        
         //To check if student add in system
         JButton showListButton = new JButton("Show Student List");
-        showListButton.setBounds(310, 360, 150, 25);
+        showListButton.setBounds(290, 360, 150, 25);
         panel.add(showListButton);
         showListButton.addActionListener(new ActionListener() {
             @Override
