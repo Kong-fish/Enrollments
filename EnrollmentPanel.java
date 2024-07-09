@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.util.List;
 
 public class EnrollmentPanel extends JPanel {
     private JCheckBox accommodationCheckBox;
@@ -9,16 +7,21 @@ public class EnrollmentPanel extends JPanel {
 
     public EnrollmentPanel(MainPanel main) {
         this.main = main;
-        setLayout(new GridLayout(3, 2));
-        setSize(400, 300);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel studentNameLabel = new JLabel("Student Name:");
+        studentNameLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(Box.createVerticalStrut(10));
         add(studentNameLabel);
 
         JLabel nameLabel = new JLabel();
+        nameLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(Box.createVerticalStrut(10));
         add(nameLabel);
 
         JLabel courseNameLabel = new JLabel("Select Course:");
+        courseNameLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(Box.createVerticalStrut(10));
         add(courseNameLabel);
 
         courseComboBox = new JComboBox<>(new String[]{
@@ -27,22 +30,23 @@ public class EnrollmentPanel extends JPanel {
                 "Engineering Undergraduate", "IT Undergraduate", "Business Undergraduate", "Law Undergraduate",
                 "Engineering Postgraduate", "IT Postgraduate", "Business Postgraduate", "Law Postgraduate"
         });
+        courseComboBox.setAlignmentX(CENTER_ALIGNMENT);
+        add(Box.createVerticalStrut(10));
         add(courseComboBox);
 
         JButton enrollButton = new JButton("Enroll");
-
+        enrollButton.setAlignmentX(CENTER_ALIGNMENT);
         enrollButton.addActionListener(e -> {
-
             JOptionPane.showMessageDialog(this, "Student enrolled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         });
 
         JButton backButton = new JButton("Back");
-
-        backButton.addActionListener(e -> {
-            main.showPanel("Home Panel");
-        });
-        
-        add(backButton);
+        backButton.setAlignmentX(CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
+        add(Box.createVerticalStrut(10));
         add(enrollButton);
+        add(Box.createVerticalStrut(10));
+        add(backButton);
+        add(Box.createVerticalStrut(10)); // Adds space at the bottom
     }
 }
