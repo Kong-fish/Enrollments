@@ -1,25 +1,30 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class WelcomePanel extends JPanel {
     private MainPanel main;
 
     public WelcomePanel(MainPanel main) {
         this.main = main;
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Welcome to MMU");
-        titleLabel.setFont(new Font("Serif", Font.BOLD, 48));
+        titleLabel. setFont(new javax.swing.plaf.FontUIResource("Arial", java.awt.Font.BOLD, 80));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(titleLabel, BorderLayout.CENTER);
+        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(Box.createVerticalGlue()); 
+        add(titleLabel);
 
-        JPanel buttonPanel = new JPanel(new BorderLayout());
-        
-        JButton btnRegister = new JButton("Register New Student");
-        btnRegister.addActionListener(e -> main.showPanel("Register Panel"));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-        buttonPanel.add(btnRegister, BorderLayout.SOUTH);
+        JButton btnLogin = new JButton("Login");
+        btnLogin.setAlignmentX(CENTER_ALIGNMENT);
+        btnLogin.addActionListener(e -> main.showPanel(main.getLoginPanel())); 
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(Box.createVerticalStrut(30)); 
+        buttonPanel.add(btnLogin);
+
+        add(buttonPanel);
+        add(Box.createVerticalGlue()); 
     }
 }
