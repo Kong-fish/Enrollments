@@ -1,25 +1,20 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
-import java.awt.*;
-import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.io.*;
 
 public class StudentList extends JPanel {
     private JTable table;
     private List<Student> students;
-    private MainPanel mainPanel;
+    private MainPanel main;
 
-    public StudentList(MainPanel mainPanel) {
-        this.mainPanel = mainPanel;
-        setLayout(new BorderLayout());
+    public StudentList(MainPanel main) {
+        this.main = main;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         students = new ArrayList<>();
         placeComponents(this);
     }
@@ -30,26 +25,29 @@ public class StudentList extends JPanel {
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
- 
+
         for (Student student : students) {
             String dob = student.getDob();
             try {
                 Date date = parser.parse(dob);
                 dob = formatter.format(date); // Format the date as "yyyy-MM-dd"
             } catch (ParseException e) {
-                // Handle the exception if the dob string is not in the expected format
                 e.printStackTrace();
             }
             model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail()});
         }
         table = new JTable(model);
-        panel.add(new JScrollPane(table), BorderLayout.CENTER);
-    
-        JButton backButton = new JButton("Back to Welcome");
-        backButton.addActionListener(e -> mainPanel.showPanel("Welcome Panel"));
-        panel.add(backButton, BorderLayout.SOUTH);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setAlignmentX(CENTER_ALIGNMENT);
+        panel.add(scrollPane);
+
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
+        panel.add(Box.createVerticalStrut(10)); // Adds space between components
+        panel.add(backButton);
     }
-    
+
     public void refreshStudentList() {
         students.clear();
         loadStudents();
@@ -64,7 +62,6 @@ public class StudentList extends JPanel {
                 Date date = parser.parse(dob);
                 dob = formatter.format(date); // Format the date as "yyyy-MM-dd"
             } catch (ParseException e) {
-                // Handle the exception if the dob string is not in the expected format
                 e.printStackTrace();
             }
             model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail()});
@@ -88,6 +85,4 @@ public class StudentList extends JPanel {
             e.printStackTrace();
         }
     }
-
-    
 }
