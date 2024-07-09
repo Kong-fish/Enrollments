@@ -2,10 +2,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.io.*;
 
 public class StudentList extends JPanel {
     private JTable table;
@@ -15,17 +13,16 @@ public class StudentList extends JPanel {
     public StudentList(MainPanel main) {
         this.main = main;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        students = new ArrayList<>();
+        StudentData studentData = new StudentData("students.txt");
+        students = studentData.getStudents();
         placeComponents(this);
     }
 
     private void placeComponents(JPanel panel) {
-        loadStudents();
         String[] columnNames = {"ID", "Name", "Date of Birth", "Gender", "Phone Number", "Email","Course Level"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
 
         for (Student student : students) {
             String dob = student.getDob();
@@ -50,8 +47,8 @@ public class StudentList extends JPanel {
     }
 
     public void refreshStudentList() {
-        students.clear();
-        loadStudents();
+        StudentData studentData = new StudentData("students.txt");
+        students = studentData.getStudents();
         // Refresh the table model
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Clear the table
@@ -67,25 +64,6 @@ public class StudentList extends JPanel {
                 e.printStackTrace();
             }
             model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail(), student.getCourseLevel()}); // Added Course Level
-        }
-    }
-
-    private void loadStudents() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("students.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                int id = Integer.parseInt(parts[0]);
-                String name = parts[1];
-                String dob = parts[2];
-                String gender = parts[3];
-                String phoneNumber = parts[4];
-                String email = parts[5];
-                String courseLevel = parts[6];
-                students.add(new Student(id, name, dob, gender, phoneNumber, email,courseLevel));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
