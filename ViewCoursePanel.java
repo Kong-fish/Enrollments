@@ -1,21 +1,22 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class ViewCoursePanel extends JPanel {
     private MainPanel main;
 
     public ViewCoursePanel(MainPanel main) {
         this.main = main;
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JTextArea studentsArea = new JTextArea();
         studentsArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(studentsArea);
 
         JButton refreshButton = new JButton("Refresh");
-
+        refreshButton.setAlignmentX(CENTER_ALIGNMENT);
         refreshButton.addActionListener(e -> {
             StringBuilder students = new StringBuilder();
-            /*for (Student student : view.getController().getModel().getStudents()) {
+            /* Uncomment and complete the following block to display student information
+            for (Student student : view.getController().getModel().getStudents()) {
                 students.append("Student: ").append(student.getName()).append("\n");
                 students.append("Courses:\n");
                 for (Course course : student.getCourses()) {
@@ -23,18 +24,20 @@ public class ViewCoursePanel extends JPanel {
                 }
                 students.append("Needs Accommodation: ").append(student.needsAccommodation()).append("\n\n");
             }
-            studentsArea.setText(students.toString());*/
+            studentsArea.setText(students.toString());
+            */
         });
 
         JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
 
-        backButton.addActionListener(e -> {
-            main.showPanel("Home Panel");
-        });
-
-        add(backButton, BorderLayout.NORTH);
-
-        add(new JScrollPane(studentsArea), BorderLayout.CENTER);
-        add(refreshButton, BorderLayout.SOUTH);
+        add(Box.createVerticalStrut(10)); // Adds space at the top
+        add(backButton);
+        add(Box.createVerticalStrut(10)); // Adds space between components
+        add(scrollPane);
+        add(Box.createVerticalStrut(10)); // Adds space between components
+        add(refreshButton);
+        add(Box.createVerticalStrut(10)); // Adds space at the bottom
     }
 }
