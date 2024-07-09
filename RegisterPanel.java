@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,13 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RegisterPanel extends JPanel {
-    private static int studentId = 1000;
+    private static int studentId;
     private MainPanel main;
 
     public RegisterPanel(MainPanel main) {
         this.main = main;
         setLayout(null);
         placeComponents(this);
+        studentId = getLastStudentId() + 1;
     }
 
     private void placeComponents(JPanel panel) {
@@ -63,9 +67,19 @@ public class RegisterPanel extends JPanel {
         emailText.setBounds(410, 280, 165, 25);
         panel.add(emailText);
 
+        // Course Level
+        JLabel courseLevelLabel = new JLabel("Course Level:");
+        courseLevelLabel.setBounds(290, 320, 100, 25);
+        panel.add(courseLevelLabel);
+
+        String[] courseLevels = { "Level 1: Remedial courses, Matriculation", "Level 2: Undergraduate", "Level 3: Postgraduate" };
+        JComboBox<String> courseLevelBox = new JComboBox<>(courseLevels);
+        courseLevelBox.setBounds(410, 320, 165, 25);
+        panel.add(courseLevelBox);
+
         // Register button
         JButton registerButton = new JButton("Register");
-        registerButton.setBounds(290, 320, 110, 25);
+        registerButton.setBounds(290, 360, 110, 25);
         panel.add(registerButton);
 
         // Action listener for register button
@@ -75,11 +89,12 @@ public class RegisterPanel extends JPanel {
             String gender = (String) genderBox.getSelectedItem();
             String phoneNumber = phoneText.getText();
             String email = emailText.getText();
+            String courseLevel = (String) courseLevelBox.getSelectedItem(); // Get the selected course level
             try {
                 Long.parseLong(phoneNumber);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String formattedDate = formatter.format(dob);
-                Student student = new Student(studentId++, studentName, formattedDate, gender, phoneNumber, email);
+                Student student = new Student(studentId++, studentName, formattedDate, gender, phoneNumber, email, courseLevel); // Include the course level when creating a new Student
                 saveStudent(student);
                 main.getStudentListPanel().refreshStudentList();
                 // Show a dialog box with a success message
@@ -93,14 +108,14 @@ public class RegisterPanel extends JPanel {
 
         // Show student list button
         JButton showListButton = new JButton("Show Student List");
-        showListButton.setBounds(290, 360, 150, 25);
+        showListButton.setBounds(290, 400, 150, 25);
         panel.add(showListButton);
 
         // Action listener for show student list button
         showListButton.addActionListener(e -> main.showPanel(main.getStudentListPanel()));
 
         JButton backButton = new JButton("Back");
-        backButton.setBounds(290, 400, 150, 25);
+        backButton.setBounds(290, 440, 150, 25);
         panel.add(backButton);
 
         backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
@@ -110,9 +125,24 @@ public class RegisterPanel extends JPanel {
     private void saveStudent(Student student) {
         try (PrintWriter writer = new PrintWriter(new FileWriter("students.txt", true))) {
             writer.println(student.getId() + "," + student.getName() + "," + student.getDob() + ","
-                    + student.getGender() + "," + student.getPhoneNumber() + "," + student.getEmail());
+                    + student.getGender() + "," + student.getPhoneNumber() + "," + student.getEmail() + "," + student.getCourseLevel()); // Save the course level
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Method to get the last used studentId from the students.txt file
+    private int getLastStudentId() {
+        int lastId = 1000; // Default value
+        try (BufferedReader reader = new BufferedReader(new FileReader("students.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                lastId = Integer.parseInt(parts[0]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lastId;
     }
 }

@@ -21,10 +21,11 @@ public class StudentList extends JPanel {
 
     private void placeComponents(JPanel panel) {
         loadStudents();
-        String[] columnNames = {"ID", "Name", "Date of Birth", "Gender", "Phone Number", "Email"};
+        String[] columnNames = {"ID", "Name", "Date of Birth", "Gender", "Phone Number", "Email","Course Level"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-        SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
 
         for (Student student : students) {
             String dob = student.getDob();
@@ -34,7 +35,7 @@ public class StudentList extends JPanel {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail()});
+            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail(),student.getCourseLevel()});
         }
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -54,8 +55,9 @@ public class StudentList extends JPanel {
         // Refresh the table model
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Clear the table
-        SimpleDateFormat parser = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         for (Student student : students) {
             String dob = student.getDob();
             try {
@@ -64,7 +66,7 @@ public class StudentList extends JPanel {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail()});
+            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail(), student.getCourseLevel()}); // Added Course Level
         }
     }
 
@@ -79,7 +81,8 @@ public class StudentList extends JPanel {
                 String gender = parts[3];
                 String phoneNumber = parts[4];
                 String email = parts[5];
-                students.add(new Student(id, name, dob, gender, phoneNumber, email));
+                String courseLevel = parts[6];
+                students.add(new Student(id, name, dob, gender, phoneNumber, email,courseLevel));
             }
         } catch (IOException e) {
             e.printStackTrace();

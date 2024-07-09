@@ -5,14 +5,16 @@ public class Student {
     private String gender;
     private String phoneNumber;
     private String email;
+    private String courseLevel;
 
-    public Student(int id, String name, String dob, String gender, String phoneNumber, String email) {
+    public Student(int id, String name, String dob, String gender, String phoneNumber, String email, String courseLevel) {
         this.id = id;
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.courseLevel = courseLevel;
     }
 
     public int getId() {
@@ -61,5 +63,13 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCourseLevel() {
+        return courseLevel;
+    }
+
+    public void setCourseLevel(String courseLevel) {
+        this.courseLevel = courseLevel;
     }
 }
