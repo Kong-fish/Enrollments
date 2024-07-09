@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class LoginPanel extends JPanel {
     private MainPanel mainPanel;
@@ -28,23 +26,25 @@ public class LoginPanel extends JPanel {
         passwordText.setBounds(410, 160, 165, 25);
         panel.add(passwordText);
 
-        JButton loginButton = new JButton("login");
-        loginButton.setBounds(290, 200, 80, 25);
+        JButton loginButton = new JButton("Login");
+        loginButton.setBounds(410, 200, 80, 25);
         panel.add(loginButton);
 
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String user = userText.getText();
-                String password = new String(passwordText.getPassword());
-                // Check the user and password. This is just a simple example.
-                // In a real application, you should check the user and password securely, such as hashing the password and checking it against a database.
-                if ("admin".equals(user) && "1234".equals(password)) {
-                    // If the login is successful, show the Welcome Panel
-                    mainPanel.showPanel("Welcome Panel");
-                } else {
-                    JOptionPane.showMessageDialog(panel, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                }
+        loginButton.addActionListener(e -> {
+            String user = userText.getText();
+            String password = new String(passwordText.getPassword());
+            // Check the user and password. This is just a simple example.
+            // In a real application, you should check the user and password securely, such as hashing the password and checking it against a database.
+            if ("admin".equals(user) && "1234".equals(password)) {
+                // If the login is successful, show the Home Panel
+                mainPanel.showPanel(mainPanel.getHomePanel());
+                // Clear the fields
+                userText.setText("");
+                passwordText.setText("");
+            } else {
+                JOptionPane.showMessageDialog(panel, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                // Clear the password field
+                passwordText.setText("");
             }
         });
     }
