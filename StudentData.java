@@ -28,4 +28,17 @@ public class StudentData {
     public ArrayList<Student> getStudents() {
         return students;
     }
+
+    public String[] getStudentNames() {
+        return students.stream().map(Student::getName).toArray(String[]::new);
+    }
+
+    public Student searchStudent(String query) {
+        for (Student student : students) {
+            if (student.getName().equals(query) || String.valueOf(student.getId()).equals(query)) {
+                return student;
+            }
+        }
+        return null;
+    }
 }

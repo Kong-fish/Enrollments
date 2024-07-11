@@ -10,7 +10,8 @@ public class MainPanel extends JFrame {
     private BillingPanel billingPanel;
     private ViewCoursePanel viewCoursePanel;
     private DiscountPanel discountPanel;
-    private StudentList studentListPanel; 
+    private StudentList studentListPanel;
+    private AddCoursePanel addCoursePanel;
 
     public MainPanel() {
         setTitle("MMU");
@@ -26,6 +27,8 @@ public class MainPanel extends JFrame {
         viewCoursePanel = new ViewCoursePanel(this);
         loginPanel = new LoginPanel(this);
         studentListPanel = new StudentList(this); 
+        viewCoursePanel = new ViewCoursePanel(this);
+        addCoursePanel = new AddCoursePanel(this);
 
         currentPanel = welcomePanel;
         add(currentPanel);
@@ -79,4 +82,10 @@ public class MainPanel extends JFrame {
     public WelcomePanel getWelcomePanel() {
         return welcomePanel;
     }
+
+    public AddCoursePanel getAddCoursePanel() {
+        return addCoursePanel;
+    }
+
+    
 }

@@ -1,43 +1,42 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.List;
 
 public class ViewCoursePanel extends JPanel {
     private MainPanel main;
+    private JTable courseTable;
+    private CourseData courseData;
 
     public ViewCoursePanel(MainPanel main) {
         this.main = main;
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(null);
 
-        JTextArea studentsArea = new JTextArea();
-        studentsArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(studentsArea);
+        JButton addButton = new JButton("Add Course");
+        addButton.addActionListener(e -> main.showPanel(main.getAddCoursePanel()));
+        addButton.setBounds(280, 380, 110, 25);
+        add(addButton);
 
-        JButton refreshButton = new JButton("Refresh");
-        refreshButton.setAlignmentX(CENTER_ALIGNMENT);
-        refreshButton.addActionListener(e -> {
-            StringBuilder students = new StringBuilder();
-            /* Uncomment and complete the following block to display student information
-            for (Student student : view.getController().getModel().getStudents()) {
-                students.append("Student: ").append(student.getName()).append("\n");
-                students.append("Courses:\n");
-                for (Course course : student.getCourses()) {
-                    students.append(course.getName()).append(" - ").append(course.getFee()).append("\n");
-                }
-                students.append("Needs Accommodation: ").append(student.needsAccommodation()).append("\n\n");
-            }
-            studentsArea.setText(students.toString());
-            */
-        });
-
-        JButton backButton = new JButton("Back");
-        backButton.setAlignmentX(CENTER_ALIGNMENT);
-        backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
-
-        add(Box.createVerticalStrut(10)); // Adds space at the top
-        add(backButton);
-        add(Box.createVerticalStrut(10)); // Adds space between components
+        courseTable = createTable();
+        JScrollPane scrollPane = new JScrollPane(courseTable);
+        scrollPane.setBounds(30, 30, 480, 340);
         add(scrollPane);
-        add(Box.createVerticalStrut(10)); // Adds space between components
-        add(refreshButton);
-        add(Box.createVerticalStrut(10)); // Adds space at the bottom
+
+        courseData = new CourseData();
+        loadCoursesToTable();
+    }
+
+    private JTable createTable() {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Course ID", "Course Name", "Price", "Level"}, 0);
+        return new JTable(model);
+    }
+
+    public void loadCoursesToTable() {
+        DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
+        model.setRowCount(0); // Clear the table
+        List<Course> courses = courseData.getCourses();
+        for (Course course : courses) {
+            model.addRow(new Object[]{course.getCourseId(), course.getName(), course.getPrice(), courseData.getCourseLevel(course.getLevel())});
+        }
     }
 }
