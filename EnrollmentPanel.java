@@ -1,25 +1,12 @@
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 
 public class EnrollmentPanel extends JPanel {
-
-    private JScrollPane scrollPane;
-    private JTextField searchField;
     private MainPanel main;
-    private StudentData studentData;
-    private CourseData courseData;
-    private List<JCheckBox> courseCheckBoxes;
-    private Student currentStudent;
-    private JPanel checkBoxPanel;
-    private JPanel courseSelectionPanel;
-
+    private JTextField searchField;
 
     public EnrollmentPanel(MainPanel main) {
         this.main = main;
-        studentData = new StudentData("students.txt");
-        courseData = new CourseData();
-        courseCheckBoxes = new ArrayList<>();
         setLayout(null); // Use null layout for absolute positioning
 
         JLabel searchLabel = new JLabel("Search Student by Name: ");
@@ -28,18 +15,21 @@ public class EnrollmentPanel extends JPanel {
 
         searchField = new JTextField();
         searchField.setBounds(380, 150, 165, 25);
-        searchField.addActionListener(e -> searchStudent(searchField.getText()));
         add(searchField);
 
         JButton searchButton = new JButton("Search");
         searchButton.setBounds(380, 180, 80, 25);
         searchButton.addActionListener(e -> {
             String query = searchField.getText();
-            Student student = searchStudent(query);
+            Student student = main.getStudentData().searchStudent(query);
             if (student != null) {
                 // If the student is found, create a new CourseSelectionPanel and show it
-                CourseSelectionPanel courseSelectionPanel = new CourseSelectionPanel(student, studentData, courseData);
+                CourseSelectionPanel courseSelectionPanel = new CourseSelectionPanel(main);
                 courseSelectionPanel.showEligibleCourses(student.getCourseLevel());
+                main.showPanel(courseSelectionPanel);
+            } else {
+                // If the student is not found, show an error message
+                JOptionPane.showMessageDialog(this, "No such student registered in the system.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         add(searchButton);
@@ -47,21 +37,6 @@ public class EnrollmentPanel extends JPanel {
         JButton backButton = new JButton("Back");
         backButton.setBounds(380, 210, 80, 25);
         backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
-        
+        add(backButton);
     }
-
-    private Student searchStudent(String query) {
-        // Search for the student
-        Student student = studentData.searchStudent(query);
-        
-        if (student != null) {
-            // If the student is found, return the student
-            return student;
-        } else {
-            // If the student is not found, show an error message
-            JOptionPane.showMessageDialog(this, "No such student registered in the system.", "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-    }    
-      
 }

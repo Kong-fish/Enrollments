@@ -26,6 +26,10 @@ public class StudentData {
         }
     }
 
+    public StudentData() {
+        students = new ArrayList<>();
+    }    
+
     public ArrayList<Student> getStudents() {
         return students;
     }

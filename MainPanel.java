@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 
 public class MainPanel extends JFrame {
@@ -12,6 +15,12 @@ public class MainPanel extends JFrame {
     private DiscountPanel discountPanel;
     private StudentList studentListPanel;
     private AddCoursePanel addCoursePanel;
+    private CourseSelectionPanel courseSelectionPanel;
+    private List<JCheckBox> courseCheckBoxes = new ArrayList<>();
+    private StudentData studentData = new StudentData();
+    private CourseData courseData = new CourseData();
+    private Student currentStudent;
+
 
     public MainPanel() {
         setTitle("MMU");
@@ -29,6 +38,7 @@ public class MainPanel extends JFrame {
         studentListPanel = new StudentList(this); 
         viewCoursePanel = new ViewCoursePanel(this);
         addCoursePanel = new AddCoursePanel(this);
+        courseSelectionPanel = new CourseSelectionPanel(this);
 
         currentPanel = welcomePanel;
         add(currentPanel);
@@ -87,5 +97,35 @@ public class MainPanel extends JFrame {
         return addCoursePanel;
     }
 
-    
+    public CourseSelectionPanel courseSelectionPanel() {
+        return courseSelectionPanel;
+    }
+
+    public List<JCheckBox> getCourseCheckBoxes() {
+        return courseCheckBoxes;
+    }
+
+    public void clearCourseCheckBoxes() {
+        courseCheckBoxes.clear();
+    }
+
+    public void addCourseCheckBox(JCheckBox checkBox) {
+        courseCheckBoxes.add(checkBox);
+    }
+
+    public StudentData getStudentData() {
+        return studentData;
+    }
+
+    public CourseData getCourseData() {
+        return courseData;
+    }
+
+    public Student getCurrentStudent() {
+        return currentStudent;
+    }
+
+    public void setCurrentStudent(Student student) {
+        this.currentStudent = student;
+    }
 }

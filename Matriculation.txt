@@ -1,2 +1,1 @@
-M1000,Engineering,2000
-M1000,IT,2000
+M1000,Engineering,2000M1000,IT,2200.0

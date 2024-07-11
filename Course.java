@@ -4,10 +4,10 @@ public abstract class Course {
     protected String name;
     protected String courseId;
     protected double price;
-    private int level;
+    private String level;
     private static List<Course> courses = new ArrayList<>();
 
-    public Course(String courseId, String name, double price, int level) {
+    public Course(String courseId, String name, double price, String level) {
         this.name = name;
         this.price = price;
         this.courseId = courseId;
@@ -27,10 +27,9 @@ public abstract class Course {
         return price;
     }
 
-    public int getLevel(){
+    public String getLevel(){
         return level;
     }
-
 
     public static void addCourse(Course course) {
         courses.add(course);

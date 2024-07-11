@@ -1,3 +1,4 @@
 1001,Student 1,2002-07-07,Male,999,Stud1@mmu.edu,Level 1: Remedial courses, Matriculation
 1002,Student 2,2001-01-01,Female,991,Stud2@mmu.edu,Level 2: Undergraduate
 1003,Student 3,2003-02-02,Female,101,Stud3@mmu.edu,Level 3: Postgraduate
+1004,Student 4,2003-03-03,Female,111,Stud2@edu.mmu,Level 2: Undergraduate
