@@ -66,9 +66,17 @@ public class CourseData {
         }
     }
     
-
     public String[] getCourseNames() {
         return courses.stream().map(Course::getName).toArray(String[]::new);
+    }
+
+    public Course getCourseByName(String name) {
+        for (Course course : courses) {
+            if (course.getName().equals(name)) {
+                return course;
+            }
+        }
+        return null;
     }
 
     public String[] getCourseIds() {
@@ -82,5 +90,18 @@ public class CourseData {
             }
         }
         return null;
+    }
+
+    public void updateCourseDataFile() {
+        for (String level : courseLevels) {
+            try (PrintWriter writer = new PrintWriter(new File(level + ".txt"))) {
+                for (Course course : getCoursesByLevel(level)) {
+                    writer.println(course.getCourseId() + "," + course.getName() + "," + course.getPrice());
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -1,30 +1,29 @@
-import java.awt.Dimension;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 public class EnrollmentPanel extends JPanel {
 
-    private JComboBox<String> studentComboBox;
-    private JComboBox<String> courseComboBox;
+    private JScrollPane scrollPane;
     private JTextField searchField;
     private MainPanel main;
     private StudentData studentData;
+    private CourseData courseData;
+    private List<JCheckBox> courseCheckBoxes;
+    private Student currentStudent;
+    private JPanel checkBoxPanel;
+    private JPanel courseSelectionPanel;
+
 
     public EnrollmentPanel(MainPanel main) {
         this.main = main;
         studentData = new StudentData("students.txt");
+        courseData = new CourseData();
+        courseCheckBoxes = new ArrayList<>();
         setLayout(null); // Use null layout for absolute positioning
 
-        JLabel studentNameLabel = new JLabel("Student Name:");
-        studentNameLabel.setBounds(260, 100, 100, 25);
-        add(studentNameLabel);
-
-        studentComboBox = new JComboBox<>(studentData.getStudentNames());
-        studentComboBox.setBounds(380, 100, 165, 25);
-        add(studentComboBox);
-
-        JLabel searchLabel = new JLabel("Search by name or ID: ");
-        searchLabel.setBounds(260, 150, 150, 25);
+        JLabel searchLabel = new JLabel("Search Student by Name: ");
+        searchLabel.setBounds(190, 150, 150, 25);
         add(searchLabel);
 
         searchField = new JTextField();
@@ -34,15 +33,16 @@ public class EnrollmentPanel extends JPanel {
 
         JButton searchButton = new JButton("Search");
         searchButton.setBounds(380, 180, 80, 25);
-        searchButton.addActionListener(e -> searchStudent(searchField.getText()));
-        add(searchButton);
-
-        JButton enrollButton = new JButton("Enroll");
-        enrollButton.setBounds(380, 180, 80, 25);
-        enrollButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Student enrolled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        searchButton.addActionListener(e -> {
+            String query = searchField.getText();
+            Student student = searchStudent(query);
+            if (student != null) {
+                // If the student is found, create a new CourseSelectionPanel and show it
+                CourseSelectionPanel courseSelectionPanel = new CourseSelectionPanel(student, studentData, courseData);
+                courseSelectionPanel.showEligibleCourses(student.getCourseLevel());
+            }
         });
-        add(enrollButton);
+        add(searchButton);
 
         JButton backButton = new JButton("Back");
         backButton.setBounds(380, 210, 80, 25);
@@ -50,12 +50,18 @@ public class EnrollmentPanel extends JPanel {
         
     }
 
-    private void searchStudent(String query) {
+    private Student searchStudent(String query) {
+        // Search for the student
         Student student = studentData.searchStudent(query);
+        
         if (student != null) {
-            studentComboBox.setSelectedItem(student.getName());
+            // If the student is found, return the student
+            return student;
         } else {
+            // If the student is not found, show an error message
             JOptionPane.showMessageDialog(this, "No such student registered in the system.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
-    }
+    }    
+      
 }

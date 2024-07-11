@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 import java.io.*;
 
 public class StudentData {
@@ -33,6 +34,15 @@ public class StudentData {
         return students.stream().map(Student::getName).toArray(String[]::new);
     }
 
+    public Student getStudentByName(String name) {
+        for (Student student : students) {
+            if (student.getName().equals(name)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
     public Student searchStudent(String query) {
         for (Student student : students) {
             if (student.getName().equals(query) || String.valueOf(student.getId()).equals(query)) {
@@ -41,4 +51,28 @@ public class StudentData {
         }
         return null;
     }
+
+    public void updateStudentDataFile() {
+        try (PrintWriter writer = new PrintWriter(new File("students.txt"))) {
+            for (Student student : students) {
+                writer.println(student.getId() + "," + student.getName() + "," + student.getDob() + "," + student.getGender() + "," + student.getPhoneNumber() + "," + student.getEmail() + "," + student.getCourseLevel() + "," + String.join(";", student.getEnrolledCourses().stream().map(Course::getCourseId).collect(Collectors.toList())));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void saveStudent(Student student) {
+        // Write the student's data to the students.txt file
+        try {
+            FileWriter writer = new FileWriter("students.txt", true);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            bufferedWriter.write(student.toString());
+            bufferedWriter.newLine();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }    
 }

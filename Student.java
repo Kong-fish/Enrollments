@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Student {
     private int id;
     private String name;
@@ -6,6 +9,7 @@ public class Student {
     private String phoneNumber;
     private String email;
     private String courseLevel;
+    private List<Course> enrolledCourses = new ArrayList<>();
 
     public Student(int id, String name, String dob, String gender, String phoneNumber, String email, String courseLevel) {
         this.id = id;
@@ -68,8 +72,22 @@ public class Student {
     public String getCourseLevel() {
         return courseLevel;
     }
+    
 
     public void setCourseLevel(String courseLevel) {
         this.courseLevel = courseLevel;
     }
+
+    public void enrollCourse(Course course) {
+        enrolledCourses.add(course);
+    }
+
+    public void unenrollCourse(Course course) {
+        enrolledCourses.remove(course);
+    }
+
+    public List<Course> getEnrolledCourses() {
+        return enrolledCourses;
+    }
+
 }
