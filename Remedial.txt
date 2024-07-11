@@ -1,1 +1,2 @@
 R1000,English remedial course,1000.0
+R1001,Mathematics remedial course,1200.0

@@ -15,6 +15,10 @@ public class CourseData {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(",");
+                if (parts.length < 3) {
+                    System.out.println("Skipping line due to incorrect format: " + line);
+                    continue;
+                }
                 String courseId = parts[0];
                 String name = parts[1];
                 double price = Double.parseDouble(parts[2]);

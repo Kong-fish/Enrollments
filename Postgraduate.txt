@@ -1,1 +1,4 @@
 P1000,Engineering,4000.0
+P1001,IT,4200.0
+P1002,Business,4100.0
+P1003,Law,4400.0

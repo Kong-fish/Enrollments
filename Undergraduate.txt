@@ -1,1 +1,4 @@
-U1000,Engineering,3000。0
+U1000,Engineering,3000.0
+U1001,IT,2200.0
+U1002,Business,2100.0
+U1003,Law,2400.0
