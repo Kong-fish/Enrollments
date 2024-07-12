@@ -4,6 +4,7 @@ import java.io.*;
 
 public class StudentData {
     private ArrayList<Student> students;
+    private String currentStudentName;
 
     public StudentData(String filename) {
         students = new ArrayList<>();
@@ -35,8 +36,13 @@ public class StudentData {
     }
 
     public String[] getStudentNames() {
-        return students.stream().map(Student::getName).toArray(String[]::new);
+        String[] names = new String[students.size()];
+        for (int i = 0; i < students.size(); i++) {
+            names[i] = students.get(i).getName();
+        }
+        return names;
     }
+    
 
     public Student getStudentByName(String name) {
         for (Student student : students) {
@@ -78,5 +84,13 @@ public class StudentData {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }    
+    }
+    
+    public String getCurrentStudentName() {
+        return currentStudentName;
+    }
+
+    public void setCurrentStudentName(String currentStudentName) {
+        this.currentStudentName = currentStudentName;
+    }
 }

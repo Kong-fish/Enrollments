@@ -48,15 +48,21 @@ public class CourseData {
     }
 
     public CourseData() {
-        //TODO Auto-generated constructor stub
     }
+    
+    
 
     public List<Course> getCourses() {
         return courses;
     }
 
     public List<Course> getCoursesByLevel(String studentLevel) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCoursesByLevel'");
+        List<Course> eligibleCourses = new ArrayList<>();
+        for (Course course : courses) {
+            if (course.getLevel().equals(studentLevel)) {
+                eligibleCourses.add(course);
+            }
+        }
+        return eligibleCourses;
     }
-}
+} 

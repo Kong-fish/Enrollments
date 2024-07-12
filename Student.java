@@ -21,6 +21,22 @@ public class Student {
         this.courseLevel = courseLevel;
     }
 
+    public int getLevel() {
+        // Replace this with your actual logic for determining the student level
+        switch (courseLevel) {
+            case "Remedial":
+                return 1;
+            case "Matriculation":
+                return 2;
+            case "Undergraduate":
+                return 3;
+            case "Postgraduate":
+                return 4;
+            default:
+                throw new IllegalArgumentException("Invalid course level: " + courseLevel);
+        }
+    }
+
     public int getId() {
         return id;
     }

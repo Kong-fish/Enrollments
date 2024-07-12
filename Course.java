@@ -5,7 +5,7 @@ public abstract class Course {
     protected String courseId;
     protected double price;
     private String level;
-    private static List<Course> courses = new ArrayList<>();
+    static List<Course> courses = new ArrayList<>();
 
     public Course(String courseId, String name, double price, String level) {
         this.name = name;
