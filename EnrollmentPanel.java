@@ -20,10 +20,12 @@ public class EnrollmentPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
+        searchPanel.setBounds(380, 120, 165, 25); // Use null layout to set bounds manually
 
         studentNameField = new JTextField(20);
+        studentNameField.setBounds(410, 120, 165, 25); // Set bounds as per your requirement
         searchButton = new JButton("Search");
+        searchButton.setBounds(580, 120, 80, 25);
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -3,6 +3,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class CourseSelectionPanel extends JPanel {
@@ -10,6 +13,7 @@ public class CourseSelectionPanel extends JPanel {
     private JButton enrollButton;
     private String studentName;
     private MainPanel mainPanel; // Assuming you have a MainPanel class
+    private JButton backButton;
 
     private CourseData remedialCourseData;
     private CourseData matriculationCourseData;
@@ -24,6 +28,12 @@ public class CourseSelectionPanel extends JPanel {
         matriculationCourseData = new CourseData("Matriculation.txt");
         undergraduateCourseData = new CourseData("Undergraduate.txt");
         postgraduateCourseData = new CourseData("Postgraduate.txt");
+
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> mainPanel.showPanel(mainPanel.getEnrollmentPanel()));
+
+        // Add the back button to the panel
+        add(backButton, BorderLayout.NORTH);
 
         loadCoursesToTable();
     }
@@ -82,14 +92,29 @@ public class CourseSelectionPanel extends JPanel {
     }
 
     private void enrollCourses() {
-        studentName = mainPanel.getEnrollmentPanel().getSearchFieldText();
+        String studentName = mainPanel.getEnrollmentPanel().getSearchFieldText();
+        boolean enrolled = false;
         for (int i = 0; i < courseTable.getRowCount(); i++) {
             Boolean isChecked = (Boolean) courseTable.getValueAt(i, 0);
             if (isChecked) {
                 String courseName = (String) courseTable.getValueAt(i, 1);
                 // Enroll the student in the course
                 System.out.println("Enrolled " + studentName + " in " + courseName);
+    
+                // Write the enrollment to the studentCourse.txt file
+                try (PrintWriter writer = new PrintWriter(new FileWriter("studentCourse.txt", true))) {
+                    writer.println(studentName + "," + courseName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                enrolled = true;
             }
         }
+        if (enrolled) {
+            JOptionPane.showMessageDialog(this, "Enrollment successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
+
+    
+    
 }
