@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -50,9 +48,7 @@ public class AddCoursePanel extends JPanel {
 
         addButton = new JButton("Add Course");
         addButton.setBounds(290, 240, 100, 25);
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        addButton.addActionListener(e ->{
                 try {
                     String courseName = courseNameField.getText();
                     String coursePrice = coursePriceField.getText();
@@ -78,7 +74,6 @@ public class AddCoursePanel extends JPanel {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(panel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }
         });
         panel.add(addButton);
 
