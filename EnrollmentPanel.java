@@ -3,38 +3,43 @@ import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class EnrollmentPanel extends JPanel {
-    private JTextField studentNameField;
+    private JComboBox<String> studentNameBox;
     private JButton searchButton;
+    private StudentData studentData;
     private MainPanel mainPanel;
     private Set<String> studentNames;
-    private StudentData studentData;
+    private Map<String, String> studentLevels;
 
     public EnrollmentPanel(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
-        this.studentData = new StudentData();
+        this.studentData = new StudentData("students.txt");
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel searchPanel = new JPanel();
-        searchPanel.setBounds(380, 120, 165, 25); // Use null layout to set bounds manually
+        searchPanel.setBounds(380, 310, 165, 25); 
 
-        studentNameField = new JTextField(20);
-        studentNameField.setBounds(410, 120, 165, 25); // Set bounds as per your requirement
+        studentNameBox = new JComboBox<>(studentData.getStudentNames());
+        studentNameBox.setBounds(410, 310, 165, 25);
+
         searchButton = new JButton("Search");
-        searchButton.setBounds(580, 120, 80, 25);
+        searchButton.setBounds(580, 310, 80, 25);
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String studentName = readStudentNameFromFile("students.txt");
-                if (!isStudentRegistered(studentName)) {
+                String inputStudentName = (String) studentNameBox.getSelectedItem(); // Get the selected student name
+                if (!isStudentRegistered(inputStudentName)) { // Check if the selected student name is registered
                     JOptionPane.showMessageDialog(EnrollmentPanel.this, "No such student registered in the system.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
+                    // Get the course level of the selected student
+                    String courseLevel = getStudentLevel();
                     // Switch to CourseSelectionPanel
-                    // Assuming CourseSelectionPanel is another JPanel and frame is the JFrame containing this panel
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(EnrollmentPanel.this);
                     frame.setContentPane(new CourseSelectionPanel(mainPanel));
                     frame.revalidate();
@@ -43,66 +48,54 @@ public class EnrollmentPanel extends JPanel {
         });
 
         searchPanel.add(new JLabel("Student Name:"));
-        searchPanel.add(studentNameField);
+        searchPanel.add(studentNameBox);
         searchPanel.add(searchButton);
-
         add(searchPanel);
 
-        // Read all student names from the file
+        // Read all student names and levels from the file
         studentNames = new HashSet<>();
+        studentLevels = new HashMap<>();
+
         try (BufferedReader reader = new BufferedReader(new FileReader("students.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
-                if (fields.length > 1) {
-                    studentNames.add(fields[1].trim()); // Get the student's name, which is the second field
+                if (fields.length >= 7) {
+                    String studentName = fields[1].trim(); // Get the student's name, which is the second field
+                    studentNames.add(studentName);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private String readStudentNameFromFile(String fileName) {
-        String studentName = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line = reader.readLine();
-            if (line != null) {
-                String[] fields = line.split(",");
-                if (fields.length > 1) {
-                    studentName = fields[1].trim(); // Get the student's name, which is the second field
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return studentName;
+        
+        
     }
 
     private boolean isStudentRegistered(String studentName) {
         return studentNames.contains(studentName);
-    }
+    }    
 
-    public String getSearchFieldText() {
-        return studentNameField.getText();
-    }
-
-    public int getStudentLevel() {
-        // Get the current student's name
-        String currentStudentName = studentData.getCurrentStudentName();
+    public String getStudentLevel() {
+        // Get the selected student name from the JComboBox
+        String selectedStudentName = (String) studentNameBox.getSelectedItem();
     
-        // Get the Student object for the current student
-        Student currentStudent = studentData.getStudentByName(currentStudentName);
+        // Get the student object by name
+        Student selectedStudent = studentData.getStudentByName(selectedStudentName);
     
-        // Check if the student exists
-        if (currentStudent != null) {
-            // Return the current student's level
-            return currentStudent.getLevel();
+        if (selectedStudent != null) {
+            // Return the level of the selected student
+            return selectedStudent.getCourseLevel();
         } else {
             // Handle the case where the student does not exist
-            // For example, return a default level or throw an exception
-            return 1; // default level
+            throw new IllegalArgumentException("Student not found: " + selectedStudentName);
         }
-    }
+    }       
     
+    public String getSelectedStudentName() {
+        // Get the selected student name from the JComboBox
+        String selectedStudentName = (String) studentNameBox.getSelectedItem();
+        return selectedStudentName;
+    }
+      
 }

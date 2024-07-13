@@ -36,6 +36,7 @@ public class Student {
                 throw new IllegalArgumentException("Invalid course level: " + courseLevel);
         }
     }
+    
 
     public int getId() {
         return id;

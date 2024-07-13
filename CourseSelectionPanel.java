@@ -24,6 +24,11 @@ public class CourseSelectionPanel extends JPanel {
         this.mainPanel = mainPanel;
         setLayout(new BorderLayout());
 
+        String selectedStudentName = mainPanel.getEnrollmentPanel().getSelectedStudentName();
+        if (selectedStudentName == null) {
+            throw new IllegalArgumentException("No student selected.");
+        }
+
         remedialCourseData = new CourseData("Remedial.txt");
         matriculationCourseData = new CourseData("Matriculation.txt");
         undergraduateCourseData = new CourseData("Undergraduate.txt");
@@ -69,38 +74,38 @@ public class CourseSelectionPanel extends JPanel {
     }
 
     private List<Course> getEligibleCourses() {
-        int studentLevel = mainPanel.getEnrollmentPanel().getStudentLevel();
+        String studentLevel = mainPanel.getEnrollmentPanel().getStudentLevel();
+
         List<Course> courses;
         switch (studentLevel) {
-            case 1:
+            case "Level 1: Remedial courses":
                 courses = remedialCourseData.getCourses();
                 courses.addAll(matriculationCourseData.getCourses());
                 courses.addAll(undergraduateCourseData.getCourses());
                 courses.addAll(postgraduateCourseData.getCourses());
                 break;
-            case 2:
+            case "Level 2: Undergraduate":
                 courses = undergraduateCourseData.getCourses();
                 courses.addAll(postgraduateCourseData.getCourses());
                 break;
-            case 3:
+            case "Level 3: Postgraduate":
                 courses = postgraduateCourseData.getCourses();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid student level: " + studentLevel);
         }
+    
         return courses;
     }
-
+    
     private void enrollCourses() {
-        String studentName = mainPanel.getEnrollmentPanel().getSearchFieldText();
+        // Retrieve the student's name from the EnrollmentPanel's drop-down box
+        String studentName = mainPanel.getEnrollmentPanel().getSelectedStudentName();
         boolean enrolled = false;
         for (int i = 0; i < courseTable.getRowCount(); i++) {
             Boolean isChecked = (Boolean) courseTable.getValueAt(i, 0);
             if (isChecked) {
                 String courseName = (String) courseTable.getValueAt(i, 1);
-                // Enroll the student in the course
-                System.out.println("Enrolled " + studentName + " in " + courseName);
-    
                 // Write the enrollment to the studentCourse.txt file
                 try (PrintWriter writer = new PrintWriter(new FileWriter("studentCourse.txt", true))) {
                     writer.println(studentName + "," + courseName);
@@ -115,6 +120,4 @@ public class CourseSelectionPanel extends JPanel {
         }
     }
 
-    
-    
 }
