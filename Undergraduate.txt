@@ -1,4 +1,4 @@
-U1000,Engineering,3000.0
-U1001,IT,2200.0
-U1002,Business,2100.0
-U1003,Law,2400.0
+U1000,Undergraduate Engineering,3000.0
+U1001,Undergraduate IT,2200.0
+U1002,Undergraduate Business,2100.0
+U1003,Undergraduate Law,2400.0

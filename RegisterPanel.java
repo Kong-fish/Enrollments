@@ -93,7 +93,7 @@ public class RegisterPanel extends JPanel {
                 Long.parseLong(phoneNumber);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String formattedDate = formatter.format(dob);
-                Student student = new Student(studentId++, studentName, formattedDate, gender, phoneNumber, email, courseLevel); // Include the course level when creating a new Student
+                Student student = new Student(studentId++, studentName, formattedDate, gender, phoneNumber, email, courseLevel);
                 saveStudent(student);
                 main.getStudentListPanel().refreshStudentList();
                 // Show a dialog box with a success message
@@ -120,7 +120,7 @@ public class RegisterPanel extends JPanel {
         backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
     }
 
-    // Method to save student information to file
+    // save student information to file
     private void saveStudent(Student student) {
         try (PrintWriter writer = new PrintWriter(new FileWriter("students.txt", true))) {
             writer.println(student.getId() + "," + student.getName() + "," + student.getDob() + ","
@@ -130,7 +130,7 @@ public class RegisterPanel extends JPanel {
         }
     }
 
-    // Method to get the last used studentId from the students.txt file
+    // Method to get the last used studentId from the students.txt file to update the studentID
     private int getLastStudentId() {
         int lastId = 1000; // Default value
         try (BufferedReader reader = new BufferedReader(new FileReader("students.txt"))) {

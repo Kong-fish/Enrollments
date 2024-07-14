@@ -63,7 +63,7 @@ public class StudentList extends JPanel {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail(), student.getCourseLevel()}); // Added Course Level
+            model.addRow(new Object[]{student.getId(), student.getName(), dob, student.getGender(), student.getPhoneNumber(), student.getEmail(), student.getCourseLevel()});
         }
     }
 }

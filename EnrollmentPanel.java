@@ -47,10 +47,15 @@ public class EnrollmentPanel extends JPanel {
             }
         });
 
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(290, 440, 150, 25);
+        backButton.addActionListener(e -> mainPanel.showPanel(mainPanel.getHomePanel()));
+
         searchPanel.add(new JLabel("Student Name:"));
         searchPanel.add(studentNameBox);
         searchPanel.add(searchButton);
         add(searchPanel);
+        add(backButton);
 
         // Read all student names and levels from the file
         studentNames = new HashSet<>();

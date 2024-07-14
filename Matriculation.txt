@@ -1,4 +1,5 @@
-M1000,Engineering,2000.0
-M1001,IT,2200.0
-M1002,Business,2100.0
-M1003,Law,2400.0
+M1000,Matriculation Engineering,2000.0
+M1001,Matriculation IT,2200.0
+M1002,Matriculation Business,2100.0
+M1003,Matriculation Law,2400.0
+

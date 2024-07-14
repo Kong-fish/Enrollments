@@ -20,6 +20,10 @@ public class HomePanel extends JPanel {
         btnRegister.setAlignmentX(CENTER_ALIGNMENT);
         btnRegister.addActionListener(e -> main.showPanel(main.getRegisterPanel()));
 
+        JButton btnShowStudList = new JButton("Show Student List");
+        btnShowStudList.setAlignmentX(CENTER_ALIGNMENT);
+        btnShowStudList.addActionListener(e -> main.showPanel(main.getStudentListPanel()));
+
         JButton btnEnroll = new JButton("Enroll Course");
         btnEnroll.setAlignmentX(CENTER_ALIGNMENT);
         btnEnroll.addActionListener(e -> main.showPanel(main.getEnrollmentPanel()));
@@ -38,6 +42,8 @@ public class HomePanel extends JPanel {
 
         add(btnRegister);
         add(Box.createVerticalStrut(10)); // Adds space between buttons
+        add(btnShowStudList);
+        add(Box.createVerticalStrut(10));
         add(btnEnroll);
         add(Box.createVerticalStrut(10)); 
         add(btnBill);
