@@ -12,7 +12,6 @@ public class MainPanel extends JFrame {
     private RegisterPanel registerPanel;
     private BillingPanel billingPanel;
     private ViewCoursePanel viewCoursePanel;
-    private DiscountPanel discountPanel;
     private StudentList studentListPanel;
     private AddCoursePanel addCoursePanel;
     private CourseSelectionPanel courseSelectionPanel;
@@ -71,10 +70,6 @@ public class MainPanel extends JFrame {
 
     public BillingPanel getBillingPanel() {
         return billingPanel;
-    }
-
-    public DiscountPanel getDiscountPanel() {
-        return discountPanel;
     }
 
     public EnrollmentPanel getEnrollmentPanel() {

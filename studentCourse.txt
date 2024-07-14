@@ -1,3 +1,7 @@
 Student 1,English remedial course
 Student 1,Mathematics remedial course
-Student 2,Engineering
+Student 2,Undergraduate Engineering
+Student 1,Undergraduate Engineering
+Student 1,Postgraduate Engineering
+Student 2,Undergraduate Law
+Student 2,Undergraduate Business

@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class AddCoursePanel extends JPanel {
@@ -69,6 +71,7 @@ public class AddCoursePanel extends JPanel {
                     courseNameField.setText("");
                     coursePriceField.setText("");
                     main.showPanel(main.getViewCoursePanel());
+                    main.getViewCoursePanel().loadCoursesToTable();
 
                     JOptionPane.showMessageDialog(panel, "Course added successfully! Course ID: " + courseId, "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
@@ -102,8 +105,29 @@ public class AddCoursePanel extends JPanel {
             default:
                 throw new IllegalArgumentException("Invalid course level: " + courseLevel);
         }
-
+        courseIdCount = getLastCourseId(courseLevel);
         return prefix + courseIdCount++;
+    }
+
+    private int getLastCourseId(String courseLevel) {
+        courseLevel = courseLevel + ".txt";
+        String lastLine = "";
+        String currentLine;
+        try (BufferedReader reader = new BufferedReader(new FileReader(courseLevel))) {
+            while ((currentLine = reader.readLine()) != null) {
+                lastLine = currentLine;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    
+        if (lastLine.isEmpty()) {
+            return 1000; 
+        } else {
+            String lastCourseId = lastLine.split(",")[0];
+            int lastCourseIdCount = Integer.parseInt(lastCourseId.substring(1)); // extract int
+            return lastCourseIdCount + 1;
+        }
     }
 
 }

@@ -14,24 +14,30 @@ public class ViewCoursePanel extends JPanel {
         this.main = main;
         setLayout(null);
 
-       // Initialize courseTable with a DefaultTableModel
-       courseTable = new JTable(new DefaultTableModel(new Object[]{"Course ID", "Name", "Price", "Level"}, 0));
-       courseTable.setBounds(30, 30, 600, 300); // Set the position and size of the table
-       add(courseTable); // Add the table to the panel
+        // Initialize courseTable with a DefaultTableModel
+        courseTable = new JTable(new DefaultTableModel(new Object[] { "Course ID", "Name", "Price", "Level" }, 0));
+        courseTable.setBounds(30, 30, 600, 300); // Set the position and size of the table
+        add(courseTable); // Add the table to the panel
 
-       JButton addButton = new JButton("Add Course");
+        JButton addButton = new JButton("Add Course");
        addButton.addActionListener(e -> main.showPanel(main.getAddCoursePanel()));
        addButton.setBounds(280, 380, 110, 25);
        add(addButton);
 
-       remedialCourseData = new CourseData("Remedial.txt");
-       matriculationCourseData = new CourseData("Matriculation.txt");
-       undergraduateCourseData = new CourseData("Undergraduate.txt");
-       postgraduateCourseData = new CourseData("Postgraduate.txt");
-       loadCoursesToTable();
+       JButton backButton = new JButton("Back");
+       backButton.addActionListener(e -> main.showPanel(main.getHomePanel()));
+       backButton.setBounds(400, 380, 110, 25);
+       add(backButton);
+
+        loadCoursesToTable();
     }
 
     public void loadCoursesToTable() {
+        remedialCourseData = new CourseData("Remedial.txt");
+        matriculationCourseData = new CourseData("Matriculation.txt");
+        undergraduateCourseData = new CourseData("Undergraduate.txt");
+        postgraduateCourseData = new CourseData("Postgraduate.txt");
+    
         DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
         model.setRowCount(0); // Clear the table
         addCoursesToTable(remedialCourseData.getCourses(), model);
@@ -42,7 +48,7 @@ public class ViewCoursePanel extends JPanel {
 
     private void addCoursesToTable(List<Course> courses, DefaultTableModel model) {
         for (Course course : courses) {
-            model.addRow(new Object[]{course.getCourseId(), course.getName(), course.getPrice(), course.getLevel()});
+            model.addRow(new Object[] { course.getCourseId(), course.getName(), course.getPrice(), course.getLevel() });
         }
     }
 
